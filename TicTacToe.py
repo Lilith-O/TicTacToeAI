@@ -26,40 +26,44 @@ def main():
                 mouseX, mouseY = pygame.mouse.get_pos()
                 xDifference, yDifference = 0, 0
                 centerX, centerY = 0, 0
-                closestX, closestY = 0, 0
-                for x in range(0, centerCords[0].__len__(),1):
-                    print()
-                    if (mouseX > centerCords[0][x]):
-                        xDifference = mouseX - centerCords[0][x]
-                    elif(mouseX < centerCords[0][x]):
-                        xDifference = centerCords[0][x] - mouseX
+                howManyLists = 0
+                for outer_list in centerCords:
+                    for inner_list in outer_list:
+                        for element in inner_list: 
+                            if (howManyLists < 9 ):
+                                if (mouseX > element):
+                                    xDifference = mouseX - element
+                                elif(mouseX < element):
+                                    xDifference = element
 
-                    if(centerX == 0):
-                        centerX = xDifference
-                        closestX = x
-                    elif(centerX > xDifference):
-                        centerX = xDifference
-                        closestX = x
+                                if(centerX == 0):
+                                    centerX = xDifference
+                                    closestX = element
+                                elif(centerX > xDifference):
+                                    centerX = xDifference
+                                    closestX = element
+                            
+                            elif(howManyLists >= 9):
+                                if (mouseY > element):
+                                    yDifference = element
+                                elif(mouseY < element):
+                                    yDifference = element
 
-                    if (mouseY > centerCords[1][x]):
-                        yDifference = mouseY - centerCords[1][x]
-                    elif(mouseY < centerCords[1][x]):
-                        yDifference = centerCords[1][x] - mouseY
-
-                    if(centerY == 0):
-                        centerY = yDifference
-                        closestY = x
-                    elif(centerY > yDifference):
-                        centerY = yDifference
-                        closestY = x
+                                if(centerY == 0):
+                                    centerY = yDifference
+                                    closestY = element
+                                elif(centerY > yDifference):
+                                    centerY = yDifference
+                                    closestY = element
+                            howManyLists = howManyLists +1
                 
                 print(closestX, closestY)
-                print(centerCords[0][x], centerCords[1][x])
+                print(element, element)
                  
                 
-                pygame.draw.circle(screen, pygame.Color(160, 32, 240), (mouseX, mouseY), CIRCLERADIUS, SHAPESWIDTH)
-                pygame.draw.line(screen, pygame.Color(160, 32, 240), (mouseX - CIRCLERADIUS,mouseY - CIRCLERADIUS), (mouseX + CIRCLERADIUS, mouseY + CIRCLERADIUS), SHAPESWIDTH)
-                pygame.draw.line(screen, pygame.Color(160, 32, 240), (mouseX - CIRCLERADIUS,mouseY + CIRCLERADIUS), (mouseX + CIRCLERADIUS, mouseY - CIRCLERADIUS), SHAPESWIDTH)
+                pygame.draw.circle(screen, pygame.Color(160, 32, 240), (closestX, closestY), CIRCLERADIUS, SHAPESWIDTH)
+                pygame.draw.line(screen, pygame.Color(160, 32, 240), (closestX - CIRCLERADIUS,closestY - CIRCLERADIUS), (closestX + CIRCLERADIUS, closestY + CIRCLERADIUS), SHAPESWIDTH)
+                pygame.draw.line(screen, pygame.Color(160, 32, 240), (closestX - CIRCLERADIUS,closestY + CIRCLERADIUS), (closestX + CIRCLERADIUS, closestY - CIRCLERADIUS), SHAPESWIDTH)
            
             if event.type == pygame.QUIT:
                 pygame.quit()
