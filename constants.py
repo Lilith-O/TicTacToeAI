@@ -1,5 +1,10 @@
-
+import pygame
 WIDTH = 600
 HEIGHT = 600
 SHAPESWIDTH = 10
 DISTANCEFROMCENTER = 75
+ROWS = 3
+COLUMNS = 3
+X_COLOR = pygame.Color(190, 0, 0)
+CIRC_COLOR = pygame.Color(0, 0, 255)
+SQUARE_SIZE = 200
