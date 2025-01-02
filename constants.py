@@ -8,3 +8,5 @@ COLUMNS = 3
 X_COLOR = pygame.Color(190, 0, 0)
 CIRC_COLOR = pygame.Color(0, 0, 255)
 SQUARE_SIZE = 200
+BOARD_COLOUR = pygame.Color(112, 41, 99)
+BG_COLOUR = pygame.Color(pygame.Color(0,0,0))
