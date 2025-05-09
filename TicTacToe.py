@@ -14,15 +14,15 @@ class Board:
 
     def __init__(self):
         self.gameState = np.zeros((ROWS, COLUMNS))
-        self.centers = np.zeros(ROWS, COLUMNS)
-        self.prepareBoard()
-        self.divideScreen()
+        self.centers = np.zeros((ROWS, COLUMNS))
+        self.prepareBoard
+        self.divideScreen
         
 
     def markSquare(self, row, column, playerNr):
         self.gameState[row][column] = playerNr
 
-    def prepareBoard():
+    def prepareBoard(self):
         pygame.draw.line(screen, BOARD_COLOUR, pygame.Vector2(WIDTH/3, 1), pygame.Vector2(WIDTH/3, HEIGHT), SHAPESWIDTH)
         pygame.draw.line(screen, BOARD_COLOUR, pygame.Vector2(WIDTH/3 * 2, 1), pygame.Vector2(WIDTH/3 *2, HEIGHT), SHAPESWIDTH)
         pygame.draw.line(screen, BOARD_COLOUR, pygame.Vector2(1 , HEIGHT/3), pygame.Vector2(WIDTH, HEIGHT/3), SHAPESWIDTH)
@@ -38,6 +38,7 @@ class Board:
         np.rollaxis(self.centers, 0, self.centers.ndim)
         self.centers.shape
         (5, 5, 2)
+        print(self.centers)
 
     def checkIfBlockIsEmpty(self, newRectangle, allOfRectangles: list):
         if(allOfRectangles.__len__() == 0):
@@ -61,7 +62,7 @@ class Game:
         self.player = 1
         
 
-    def drawShapeInRightSquare(centersList: list, mouseXpos, mouseYpos):
+    def drawShapeInRightSquare(self, centersList: list, mouseXpos, mouseYpos):
         xDifference, yDifference = 0, 0
         centerX, centerY = 0, 0
         closestXpos, closestYpos = 0, 0
@@ -96,32 +97,32 @@ class Game:
                             closestYpos = element
                     howManyLists = howManyLists +1
         return closestXpos, closestYpos
-    def switchPlayers(lastPlayer):
+    def switchPlayers(self, lastPlayer):
         if (lastPlayer == 1):
             lastPlayer = 2
         elif(lastPlayer == 2):
             lastPlayer = 1
         return lastPlayer
-    def drawRightShape(screenSurface, posX, posY, gameState, playerToPlay):
+    def drawRightShape(self, screenSurface, posX, posY, gameState, playerToPlay):
         if(playerToPlay == 1):
             newRect = pygame.Rect(posX, posY, SQUARE_SIZE, SQUARE_SIZE)
-            if(checkIfBlockIsEmpty(newRect, all_rectangles) == True):
-                all_rectangles.append(newRect)
+            if(self.board.checkIfBlockIsEmpty(newRect, gameState)):
+                gameState.append(newRect)
                 pygame.draw.circle(screenSurface, CIRC_COLOR, (posX, posY), DISTANCEFROMCENTER, SHAPESWIDTH) 
-                row, column = convCordToRowAndColumn(posX, posY)
-                gameState = markSquare(row, column,gameState, playerToPlay)
-                playerToPlay = switchPlayers(playerToPlay)
+                row, column = self.convCordToRowAndColumn(posX, posY)
+                gameState = self.board.markSquare(row, column,gameState, playerToPlay)
+                playerToPlay = self.switchPlayers(playerToPlay)
         elif(playerToPlay == 2):
             newRect = pygame.Rect(posX, posY, SQUARE_SIZE, SQUARE_SIZE)
-            if(checkIfBlockIsEmpty(newRect, all_rectangles) == True):
-                all_rectangles.append(newRect)
-                row, column = convCordToRowAndColumn(posX, posY)
-                gameState = markSquare(row, column,gameState, playerToPlay)
+            if(self.board.checkIfBlockIsEmpty(newRect, gameState) == True):
+                gameState.append(newRect)
+                row, column = self.convCordToRowAndColumn(posX, posY)
+                gameState = self.board.markSquare(row, column,gameState, playerToPlay)
                 pygame.draw.line(screenSurface, X_COLOR, (posX - DISTANCEFROMCENTER,posY - DISTANCEFROMCENTER), (posX + DISTANCEFROMCENTER, posY + DISTANCEFROMCENTER), SHAPESWIDTH)
                 pygame.draw.line(screenSurface, X_COLOR, (posX - DISTANCEFROMCENTER,posY + DISTANCEFROMCENTER), (posX + DISTANCEFROMCENTER, posY - DISTANCEFROMCENTER), SHAPESWIDTH)
-                playerToPlay = switchPlayers(playerToPlay)
+                playerToPlay = self.switchPlayers(playerToPlay)
         return playerToPlay, gameState 
-    def postGameCheck(gameState: list, gameOver):
+    def postGameCheck(self, gameState: list, gameOver):
         gameStateFull = True
         for row in range(ROWS):
             for col in range(COLUMNS):
@@ -135,7 +136,7 @@ class Game:
             screen.blit(text, textRect)
             return True
         return False
-    def winCheck(gameState: list, show = False):
+    def winCheck(self, gameState: list, show = False):
         #Vertical Win
         for row in range(ROWS):
             if(gameState[row][0] == gameState[row][1] == gameState[row][2] != 0):
@@ -172,7 +173,7 @@ class Game:
             return True
         #No Win
         return False
-    def convCordToRowAndColumn(xPos, yPos):
+    def convCordToRowAndColumn(self, xPos, yPos):
         row, column = 0,0
         row= int(xPos / SQUARE_SIZE)
         column= int(yPos / SQUARE_SIZE)
@@ -181,8 +182,6 @@ class Game:
 def main():
 
     game = Game()
-
-
     gameOver = False
     closestX, closestY = 0,0
     currentPlayer = 1   
@@ -195,7 +194,7 @@ def main():
             
             if event.type == pygame.MOUSEBUTTONDOWN and postGame == False:
                 mouseX, mouseY = pygame.mouse.get_pos()
-                closestX, closestY = game.drawShapeInRightSquare(centerCords, mouseX, mouseY)
+                closestX, closestY = game.drawShapeInRightSquare(game.board.centers, mouseX, mouseY)
                 
                 currentPlayer, boardState = game.drawRightShape(screen, closestX, closestY, boardState, currentPlayer)
                 

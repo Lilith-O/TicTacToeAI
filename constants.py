@@ -1,12 +1,26 @@
 import pygame
 WIDTH = 600
 HEIGHT = 600
+
+
 SHAPESWIDTH = 10
 DISTANCEFROMCENTER = 75
 ROWS = 3
 COLUMNS = 3
+
+
+SQUARE_SIZE = WIDTH//COLUMNS
+LINE_WIDTH = 15
+CIRC_WIDTH = 15
+X_WIDTH = 20
+
+RADIUS = SQUARE_SIZE // 4
+
+OFFSET = 50
+
+#colours
+TEXT_COLOR = pygame.Color(255, 255 ,255)
 X_COLOR = pygame.Color(190, 0, 0)
 CIRC_COLOR = pygame.Color(0, 0, 255)
-SQUARE_SIZE = 200
 BOARD_COLOUR = pygame.Color(112, 41, 99)
 BG_COLOUR = pygame.Color(pygame.Color(0,0,0))
